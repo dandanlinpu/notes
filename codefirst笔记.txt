@@ -1,0 +1,21 @@
+1.nuget下载entityframework
+  Install-package entityframework -project ProjectName
+2.
+   a)编写自己的context类
+   public MyContext: DbContext{
+	public DBContext():base(){
+
+	}
+	Dbset<Customer> Customers;
+	DbSet<Order> Orders;
+   }
+   b)调用context   
+说明：
+   MyContext参数：
+
+3.表之间的关系
+
+4.增删改查
+
+
+　
