@@ -1,0 +1,51 @@
+1.认证授权配置例子
+	示例1：
+	<authentication mode="Windows" />
+	<authorization>
+		<deny users="?" />  //拒绝匿名用户，？表示匿名(anoymous)用户
+		<allow users="*" /> //允许所有用户，*标识所有用户
+	<authorization />
+	示例2：
+	<authentication mode="Windows" />
+	<authorization>
+		<allow roles="domainname\group1" />				//允许group1中的所有用户,如administrator，如果用户账户名不再列表中，则弹窗要求用户填写账户名和密码
+		<allow user="domainname\user1,domainname\user2" />	//允许user1 user2
+		<deny users="*" />  //拒绝其他所有用户
+	<authorization />
+	在代码中检查用户是否属于某个组:
+	User.IsInRole("Administrators")
+2.开启windows身份认证
+	IIS中配置windows身份认证，web.config中设置 <authentication mode="Windows" />
+	如果IIS中同时配置了匿名身份认证和windows身份认证
+		1）仍会使用匿名身份认证，除非在iis中禁用匿名身份认证。
+		2）或者在Web.config中启用windows身份认证，并禁用匿名用户
+			<authentication mode="Windows" />
+			<authorization>
+				<deny users="?" />  //拒绝匿名用户，？表示匿名用户
+			<authorization />
+3.vs使用IIS调试
+	点击项目属性-web：
+					iis express 相当于内置的IIS的配置。
+					本地 iss，使用本机安装的iis，推荐此方式，方便配置调试（注意要以管理员身份启动vs2015才能使用本地iis）
+4.Windows身份认证的用户获取
+	以用户登录电脑的用户名，如 jsjs-lddan\lddan，DESTOP-23JS\lddan作为认证。
+	在代码中通过 ：
+		User.Identity.Name获取访问的用户
+		User.Identity.IsAuthenticated
+		User.Identity.AuthenticationType
+5.设置asp.net模拟
+	在web.config中设置 <identity impersonate="true" />vs运行后会自动打开iis中的asp.net模拟；同样在iis中修改会后，会自动覆盖web.config配置。
+	目的是修改asp.net应用程序代码的运行的用户，默认是IIS APPPOOL\DefaultAppPool.
+		配置如下：
+			<identity impersonate="true" />		//以客户端的访问的账户作为运行服务端程序代码的账户
+			<identity impersonate="true" userName="" password="" /> //注意用户名账号必须可以登录
+	使用asp.net模拟必须需改应用程序运行为“经典模式”
+6.文件夹级的授权
+	在文件夹下建立web.config并进行配置（asp.net程序可以有多个web.config配置文件）。
+	比如可以让某一部分代码用管理员身份来模拟运行。
+		<authorization>
+			<allow roles="Domain Admins" />
+			<deny users="*"/>
+		</authorization>
+		<identity impersonate="true" />
+		设置为经典模式

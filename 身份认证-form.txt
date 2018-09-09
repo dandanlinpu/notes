@@ -1,0 +1,11 @@
+ 1.快速理解
+ 适用于没有域的状况，如internet。
+	 <authentication mode="Forms">				//会自动打开iis中的form身份验证,与impersonate类似。
+		  <forms loginUrl="index.html">
+			<credentials passwordFormat="Clear">
+			  <user name="ldd" password="ldd"/>
+			  <user name="zzq" password="zzq"/>
+			</credentials>
+		  </forms>
+	 </authentication>
+ 

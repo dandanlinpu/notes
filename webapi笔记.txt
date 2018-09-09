@@ -1,0 +1,10 @@
+1. 返回一个静态html文件，如SPA页面     
+
+	 [HttpGet,Route("index")]
+        public HttpResponseMessage index() {
+            var path=  HttpContext.Current.Server.MapPath("~/Contents/index.html");
+            var response = new HttpResponseMessage();
+            response.Content = new StringContent(File.ReadAllText(path));
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/html");
+            return response;
+        }

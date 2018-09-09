@@ -1,0 +1,31 @@
+ 参数必须添加 [FromBody]
+ html中：
+	var xhr = new XMLHttpRequest();
+        xhr.open("post", "loginapi", true);
+        var data = {
+            username: document.getElementById("#name"),
+            passwword: document.getElementById("#password"),
+            remember: document.getElementById("#remember"),
+        }
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send(JSON.stringify(data));
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    alert(xhr.responseText);
+                };
+            };
+        }
+ cs服务端
+	  public struct userinfo
+		{
+			string username;
+			string password;
+			bool remember;
+		}
+	[HttpPost, Route("loginapi")]
+	public void loginapi([FromBody]userinfo u)
+    {
+           /...
+    }
+		
