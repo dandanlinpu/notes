@@ -1,7 +1,7 @@
 1.nuget下载entityframework
   Install-package entityframework -project ProjectName
 2.
-   a)编写自己的context类
+   1)编写自己的context类
    public MyContext: DbContext{
 	public DBContext():base(){
 
@@ -9,13 +9,27 @@
 	Dbset<Customer> Customers;
 	DbSet<Order> Orders;
    }
-   b)调用context   
-说明：
-   MyContext参数：
+   2)调用context   
 
+   说明：
+   1)MyContext参数：
+	   a)为空，依次尝试在本地Express、LocalDb上建立数据库（数据库名字为context的全名，即包含了命名空间：NameSpace.MyContext）
+	   b）为字符串。
+	   如"market"，则依次在本地Express、LocalDb上创建该数据库
+	   c）连接字符串
+	   如"Data Source=(服务器地址);Initial Catalog=数据库名称;User ID=用户名;Password=密码;"
+	   d）config文件连接字符串。
+	   如"=maket"，则在app.config中寻找connectionString对应的字段配置
+   2）MyContext所指定的数据库如果已经存在，则直接使用现有数据库。
+4.使用
+
+
+5.增删改查
+
+	   
 3.表之间的关系
 
-4.增删改查
 
+6.默认约定
 
 　

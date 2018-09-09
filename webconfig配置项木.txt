@@ -1,0 +1,7 @@
+<authentication mode="Windows">
+	<authorization>
+		<deny users="?" />  //拒绝匿名用户
+		<allow users="*" /> //允许所有用户
+	<authorization />
+<authentication />
+
