@@ -1,0 +1,65 @@
+$.ajax({
+    type : "POST",
+    url : /v1/user,
+    datatype : "application/json",
+    contentType: "text/plain",
+    success : function() {
+
+    },
+    error : function(error) {
+
+    }
+	
+contentType is the type of data you're sending, so application/json; charset=utf-8 is a common one, as is application/x-www-form-urlencoded; charset=UTF-8, which is the default.
+
+dataType is what you're expecting back from the server: json, html, text, etc. jQuery will use this to figure out how to populate the success function's parameter.
+
+contentType is the type of data you're sending, so application/json; charset=utf-8 is a common one, as is application/x-www-form-urlencoded; charset=UTF-8, which is the default.
+
+dataType is what you're expecting back from the server: json, html, text, etc. jQuery will use this to figure out how to populate the success function's parameter.
+
+If you're posting something like:
+
+{"name":"John Doe"}
+and expecting back:
+
+{"success":true}
+Then you should have:
+
+var data = {"name":"John Doe"}
+$.ajax({
+    dataType : "json",
+    contentType: "application/json; charset=utf-8",
+    data : JSON.stringify(data),
+    success : function(result) {
+        alert(result.success); // result is an object which is created from the returned JSON
+    },
+});
+If you're expecting the following:
+
+<div>SUCCESS!!!</div>
+Then you should do:
+
+var data = {"name":"John Doe"}
+$.ajax({
+    dataType : "html",
+    contentType: "application/json; charset=utf-8",
+    data : JSON.stringify(data),
+    success : function(result) {
+        jQuery("#someContainer").html(result); // result is the HTML text
+    },
+});
+One more - if you want to post:
+
+name=John&age=34
+Then don't stringify the data, and do:
+
+var data = {"name":"John", "age": 34}
+$.ajax({
+    dataType : "html",
+    contentType: "application/x-www-form-urlencoded; charset=UTF-8", // this is the default value, so it's optional
+    data : data,
+    success : function(result) {
+        jQuery("#someContainer").html(result); // result is the HTML text
+    },
+});
